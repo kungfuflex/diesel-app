@@ -1,76 +1,14 @@
  'use client';
 
- import Link from "next/link";
- import Image from "next/image";
- import { useEffect, useMemo, useRef, useState, useCallback, memo } from "react";
- import { usePathname } from "next/navigation";
- import { useWallet } from "@/context/WalletContext";
-import { useTheme } from "@/context/ThemeContext";
- import { Menu, X } from "lucide-react";
- import AddressAvatar from "./AddressAvatar";
+import Link from "next/link";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
+import { useWallet } from "@/context/WalletContext";
+import { Menu, X } from "lucide-react";
+import AddressAvatar from "./AddressAvatar";
 
- const FallingSnowflakes = memo(function FallingSnowflakes({ white = false }: { white?: boolean }) {
-   const snowflakes = useMemo(() => {
-     const positions = [20, 40, 60, 80];
-     const delays = [0, 1.5, 3, 4.5];
-     const durations = [5.5, 6.5, 7, 6];
-     const sizes = [12, 14, 11, 13];
-     
-     return Array.from({ length: 4 }, (_, i) => ({
-       id: i,
-       left: positions[i],
-       delay: delays[i],
-       duration: durations[i],
-       size: sizes[i],
-     }));
-   }, []);
-
-   return (
-     <>
-       <style dangerouslySetInnerHTML={{
-         __html: `
-           @keyframes snowfall {
-             0% {
-               transform: translateY(-30px) rotate(0deg);
-               opacity: 0;
-             }
-             10% {
-               opacity: 1;
-             }
-             90% {
-               opacity: 1;
-             }
-             100% {
-               transform: translateY(80px) rotate(360deg);
-               opacity: 0;
-             }
-           }
-         `
-       }} />
-       {snowflakes.map((flake) => (
-         <Image
-           key={flake.id}
-           src="/brand/snowflake-mark.svg"
-           alt=""
-           width={flake.size}
-           height={flake.size}
-           className="pointer-events-none absolute"
-           style={{
-             left: `${flake.left}%`,
-             top: '-10px',
-             opacity: 0,
-             animation: `snowfall ${flake.duration}s linear ${flake.delay}s infinite`,
-             filter: white ? 'brightness(0) invert(1)' : 'drop-shadow(0 0 2px rgba(255,255,255,0.8)) brightness(1.5)',
-           }}
-         />
-       ))}
-     </>
-   );
- });
-
- export default function Header() {
+export default function Header() {
   const { connected, isConnected, address, onConnectModalOpenChange, disconnect } = useWallet() as any;
-  const { theme } = useTheme();
    const pathname = usePathname();
    const [menuOpen, setMenuOpen] = useState(false);
    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -132,23 +70,9 @@ import { useTheme } from "@/context/ThemeContext";
     <header className="relative z-50 w-full bg-[color:var(--sf-glass-bg)] backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.05)] border-b border-[color:var(--sf-glass-border)]">
       <div className="relative flex h-[58px] w-full items-center px-6 sm:px-10">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2 select-none" aria-label="Subfrost Home">
-          <Image
-            src="/brand/snowflake_2025.svg"
-            alt="Subfrost snowflake logo"
-            width={24}
-            height={24}
-            priority
-            className="w-6 h-6"
-          />
-          <Image
-            src="/brand/subfrost-wordmark.svg"
-            alt="SUBFROST wordmark"
-            width={180}
-            height={24}
-            priority
-            className="transition-opacity hover:opacity-80 h-6 w-auto sf-wordmark"
-          />
+        <Link href="/" className="flex items-center gap-3 select-none" aria-label="DIESEL Home">
+          <span className="text-2xl font-bold tracking-tight text-[color:var(--sf-primary)]">DIESEL</span>
+          <div className="diesel-rainbow-bar w-8 rounded-full"></div>
         </Link>
 
         {/* Desktop Nav (centered to viewport) */}
@@ -160,10 +84,10 @@ import { useTheme } from "@/context/ThemeContext";
             SWAP
           </Link>
           <Link href="/vaults" className={`text-sm font-bold tracking-[0.08em] uppercase hover:opacity-80 outline-none focus:outline-none transition-all whitespace-nowrap ${isActive('/vaults') ? 'text-[color:var(--sf-primary)] border-b-2 border-[color:var(--sf-primary)] pb-1' : 'text-[color:var(--sf-text)]'}`}>
-            VAULTS
+            STAKE
           </Link>
-          <Link href="/futures" className={`text-sm font-bold tracking-[0.08em] uppercase hover:opacity-80 outline-none focus:outline-none transition-all whitespace-nowrap ${isActive('/futures') ? 'text-[color:var(--sf-primary)] border-b-2 border-[color:var(--sf-primary)] pb-1' : 'text-[color:var(--sf-text)]'}`}>
-            FUTURES
+          <Link href="/mint" className={`text-sm font-bold tracking-[0.08em] uppercase hover:opacity-80 outline-none focus:outline-none transition-all whitespace-nowrap ${isActive('/mint') ? 'text-[color:var(--sf-primary)] border-b-2 border-[color:var(--sf-primary)] pb-1' : 'text-[color:var(--sf-text)]'}`}>
+            MINT
           </Link>
         </nav>
 
@@ -174,7 +98,7 @@ import { useTheme } from "@/context/ThemeContext";
                <button
                  type="button"
                  onClick={() => setMenuOpen((v) => !v)}
-                 className={`flex items-center gap-2 rounded-full bg-[color:var(--sf-surface)] px-4 py-2 text-sm font-bold tracking-[0.08em] text-[color:var(--sf-text)] transition-colors hover:bg-[color:var(--sf-surface)]/95 border border-[color:var(--sf-outline)] focus:outline-none ${theme === 'dark' ? 'shadow-[0_2px_0_rgba(0,0,0,0.2),0_6px_14px_rgba(0,0,0,0.12)]' : ''}`}
+                 className="flex items-center gap-2 rounded-full bg-[color:var(--sf-surface)] px-4 py-2 text-sm font-bold tracking-[0.08em] text-[color:var(--sf-text)] transition-colors hover:bg-[color:var(--sf-surface)]/95 border border-[color:var(--sf-outline)] focus:outline-none shadow-[0_2px_0_rgba(0,0,0,0.2),0_6px_14px_rgba(0,0,0,0.12)]"
                >
                  <AddressAvatar address={address} size={24} />
                  <span className="hidden sm:inline">{truncate(address)}</span>
@@ -211,14 +135,9 @@ import { useTheme } from "@/context/ThemeContext";
                <button
                  type="button"
                  onClick={() => onConnectModalOpenChange(true)}
-                 className="relative rounded-lg bg-[color:var(--sf-surface)] px-6 py-2 text-sm font-bold tracking-[0.08em] text-[color:var(--sf-text)] transition-colors hover:bg-[color:var(--sf-surface)]/95 border border-[color:var(--sf-outline)] focus:outline-none overflow-hidden"
+                 className="relative rounded-lg bg-[color:var(--sf-primary)] px-6 py-2 text-sm font-bold tracking-[0.08em] text-black transition-colors hover:bg-[color:var(--sf-primary-pressed)] focus:outline-none overflow-hidden"
                >
                  <span className="relative z-10">CONNECT WALLET</span>
-                 {theme === 'light' && (
-                   <div className="absolute inset-0 pointer-events-none">
-                     <FallingSnowflakes />
-                   </div>
-                 )}
                </button>
              </div>
            )}
@@ -237,6 +156,7 @@ import { useTheme } from "@/context/ThemeContext";
 
            {mobileMenuOpen && (
              <div className="fixed left-0 right-0 top-[58px] mx-4 overflow-hidden rounded-xl border border-[color:var(--sf-glass-border)] bg-[color:var(--sf-surface)] shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+               <div className="diesel-rainbow-bar"></div>
                <nav className="flex flex-col">
                  <Link
                    href="/"
@@ -257,14 +177,14 @@ import { useTheme } from "@/context/ThemeContext";
                    onClick={() => setMobileMenuOpen(false)}
                    className={`px-6 py-4 text-sm font-bold tracking-[0.08em] uppercase hover:bg-[color:var(--sf-primary)]/10 border-b border-[color:var(--sf-glass-border)] outline-none focus:outline-none transition-all ${isActive('/vaults') ? 'text-[color:var(--sf-primary)] bg-[color:var(--sf-primary)]/10 border-l-4 border-l-[color:var(--sf-primary)]' : 'text-[color:var(--sf-text)]'}`}
                  >
-                   VAULTS
+                   STAKE
                  </Link>
                  <Link
-                   href="/futures"
+                   href="/mint"
                    onClick={() => setMobileMenuOpen(false)}
-                   className={`px-6 py-4 text-sm font-bold tracking-[0.08em] uppercase hover:bg-[color:var(--sf-primary)]/10 border-b border-[color:var(--sf-glass-border)] outline-none focus:outline-none transition-all ${isActive('/futures') ? 'text-[color:var(--sf-primary)] bg-[color:var(--sf-primary)]/10 border-l-4 border-l-[color:var(--sf-primary)]' : 'text-[color:var(--sf-text)]'}`}
+                   className={`px-6 py-4 text-sm font-bold tracking-[0.08em] uppercase hover:bg-[color:var(--sf-primary)]/10 border-b border-[color:var(--sf-glass-border)] outline-none focus:outline-none transition-all ${isActive('/mint') ? 'text-[color:var(--sf-primary)] bg-[color:var(--sf-primary)]/10 border-l-4 border-l-[color:var(--sf-primary)]' : 'text-[color:var(--sf-text)]'}`}
                  >
-                   FUTURES
+                   MINT
                  </Link>
                  
                  {walletConnected ? (
@@ -305,14 +225,9 @@ import { useTheme } from "@/context/ThemeContext";
                          onConnectModalOpenChange(true);
                          setMobileMenuOpen(false);
                        }}
-                       className="relative w-full rounded-lg bg-[color:var(--sf-primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[color:var(--sf-primary-pressed)] overflow-hidden"
+                       className="relative w-full rounded-lg bg-[color:var(--sf-primary)] px-4 py-2 text-sm font-semibold text-black hover:bg-[color:var(--sf-primary-pressed)] overflow-hidden"
                      >
                        <span className="relative z-10">CONNECT WALLET</span>
-                       {theme === 'light' && (
-                         <div className="absolute inset-0 pointer-events-none">
-                           <FallingSnowflakes white />
-                         </div>
-                       )}
                      </button>
                    </div>
                  )}

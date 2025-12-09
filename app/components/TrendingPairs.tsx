@@ -6,17 +6,6 @@ import { usePools } from '@/hooks/usePools';
 import { useWallet } from '@/context/WalletContext';
 import TokenIcon from '@/app/components/TokenIcon';
 
-// Whitelisted pool IDs (mainnet only)
-const MAINNET_WHITELISTED_POOL_IDS = new Set([
-  '2:77222',
-  '2:77087',
-  '2:77221',
-  '2:77228',
-  '2:77237',
-  '2:68441',
-  '2:68433',
-]);
-
 function PairBadge({ a, b }: { a: { id: string; symbol: string }, b: { id: string; symbol: string } }) {
   return (
     <div className="flex items-center gap-2">
@@ -44,13 +33,14 @@ export default function TrendingPairs() {
   const { network } = useWallet();
   const { data } = usePools({ sortBy: 'tvl', order: 'desc', limit: 200 });
   const pairs = useMemo(() => {
-    // Filter to whitelisted pools on mainnet, allow all on other networks
-    // Sort by TVL (volume data not currently available from API), take the top one
+    // Filter to DIESEL pairs only for DIESEL app
     const allPools = data?.items ?? [];
-    const filtered = network === 'mainnet'
-      ? allPools.filter(p => MAINNET_WHITELISTED_POOL_IDS.has(p.id))
-      : allPools;
-    return filtered
+    const dieselPools = allPools.filter(
+      p => p.token0.symbol === 'DIESEL' || p.token1.symbol === 'DIESEL'
+    );
+    // If no DIESEL pools, show top pools as fallback
+    const poolsToShow = dieselPools.length > 0 ? dieselPools : allPools;
+    return poolsToShow
       .sort((a, b) => (b.tvlUsd ?? 0) - (a.tvlUsd ?? 0))
       .slice(0, 1);
   }, [data?.items, network]);

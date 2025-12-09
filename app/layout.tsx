@@ -21,32 +21,32 @@ const geistMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SUBFROST | Cross-Chain DeFi on Bitcoin - dxBTC Yield & Native Asset Swaps",
-  description: "The Bitcoin-native Layer 0 for seamless DeFi. Swap BTC, ETH, ZEC & stablecoins on L1. Earn real BTC yield with dxBTC tokenized staking. No lock-ups, no wrapped tokens - pure Bitcoin DeFi.",
-  keywords: ["Bitcoin DeFi", "dxBTC", "frBTC", "cross-chain swaps", "BTC yield", "Bitcoin Layer 0", "native asset swaps", "Bitcoin AMM", "BTC staking", "Subfrost"],
+  title: "DIESEL | Bitcoin-Native Alkane Token - Stake, Swap & Earn",
+  description: "The DIESEL token platform on Bitcoin. Stake DIESEL in the veDIESEL vault, swap DIESEL pairs, and earn yield. Powered by Alkanes protocol.",
+  keywords: ["DIESEL", "Bitcoin DeFi", "veDIESEL", "Alkanes", "Bitcoin staking", "DIESEL token", "Bitcoin AMM", "alkanes-web-sys"],
   icons: {
-    icon: "/brand/Logo.png",
-    apple: "/brand/Logo.png",
+    icon: "/brand/diesel-logo.png",
+    apple: "/brand/diesel-logo.png",
   },
   openGraph: {
-    title: "SUBFROST | Cross-Chain DeFi on Bitcoin - dxBTC Yield & Native Asset Swaps",
-    description: "The Bitcoin-native Layer 0 for seamless DeFi. Swap BTC, ETH, ZEC & stablecoins directly on L1. Earn real BTC yield with dxBTC - no lock-ups, no wrapped tokens.",
+    title: "DIESEL | Bitcoin-Native Alkane Token - Stake, Swap & Earn",
+    description: "The DIESEL token platform on Bitcoin. Stake DIESEL in the veDIESEL vault, swap DIESEL pairs, and earn yield. Powered by Alkanes protocol.",
     images: [
       {
-        url: "/brand/Logo.png",
+        url: "/brand/diesel-logo.png",
         width: 1200,
         height: 1200,
-        alt: "Subfrost - Bitcoin-Native DeFi Platform",
+        alt: "DIESEL - Bitcoin-Native Alkane Token",
       },
     ],
-    siteName: "Subfrost",
+    siteName: "DIESEL",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SUBFROST | Cross-Chain DeFi on Bitcoin - dxBTC Yield & Native Asset Swaps",
-    description: "The Bitcoin-native Layer 0 for seamless DeFi. Swap BTC, ETH, ZEC & stablecoins on L1. Earn real BTC yield with dxBTC - no lock-ups.",
-    images: ["/brand/Logo.png"],
+    title: "DIESEL | Bitcoin-Native Alkane Token - Stake, Swap & Earn",
+    description: "The DIESEL token platform on Bitcoin. Stake DIESEL in the veDIESEL vault, swap DIESEL pairs, and earn yield.",
+    images: ["/brand/diesel-logo.png"],
   },
 };
 

@@ -55,16 +55,13 @@ export function ExchangeProvider({ children }: { children: ReactNode }) {
   const config = useMemo(() => getConfig(network), [network]);
   const prevNetworkRef = useRef(network);
   
-  // Token whitelist for filtering
+  // Token whitelist for filtering - DIESEL pairs only
   const [allowedTokens] = useState(() => new Set([
     'BTC',
     'frBTC',
     'SUBFROST BTC',
     'bUSD',
     'DIESEL',
-    'METHANE',
-    'ALKAMIST',
-    'GOLD DUST'
   ]));
   
   // Fetch pools dynamically using WASM method
@@ -127,7 +124,18 @@ export function ExchangeProvider({ children }: { children: ReactNode }) {
             const { FRBTC_ALKANE_ID, BUSD_ALKANE_ID } = config;
 
             // Known token mappings - dynamically built based on network config
+            // DIESEL alkane ID is 2:0 on all networks
+            const DIESEL_ALKANE_ID = '2:0';
+
             const tokenMap: Record<string, TokenMeta> = {
+              // DIESEL - the primary token for this app
+              [DIESEL_ALKANE_ID]: {
+                symbol: 'DIESEL',
+                name: 'DIESEL',
+                id: DIESEL_ALKANE_ID,
+                decimals: 8,
+                iconUrl: `https://asset.oyl.gg/alkanes/${network}/2-0.png`,
+              },
               // frBTC - uses config value (32:0 on most networks)
               [FRBTC_ALKANE_ID]: {
                 symbol: 'frBTC',
@@ -185,18 +193,27 @@ export function ExchangeProvider({ children }: { children: ReactNode }) {
       })
       .filter((p): p is EnrichedPool => p !== null);
     
-    // Filter by whitelist (symbols)
+    // Filter by whitelist (symbols) and prioritize DIESEL pairs
     const filtered = enrichedPools.filter((pool) => {
+      const hasAllowedTokens = allowedTokens.has(pool.token0.symbol) && allowedTokens.has(pool.token1.symbol);
+      // For DIESEL app, prioritize pools that contain DIESEL
+      const hasDiesel = pool.token0.symbol === 'DIESEL' || pool.token1.symbol === 'DIESEL';
+      return hasAllowedTokens && hasDiesel;
+    });
+
+    // If no DIESEL pairs found, show all allowed token pairs as fallback
+    const finalPools = filtered.length > 0 ? filtered : enrichedPools.filter((pool) => {
       return allowedTokens.has(pool.token0.symbol) && allowedTokens.has(pool.token1.symbol);
     });
-    
+
     console.log('[ExchangeContext] Loaded pools:', {
       total: enrichedPools.length,
-      filtered: filtered.length,
-      pools: filtered.map(p => `${p.token0.symbol}/${p.token1.symbol}`)
+      dieselPairs: filtered.length,
+      final: finalPools.length,
+      pools: finalPools.map(p => `${p.token0.symbol}/${p.token1.symbol}`)
     });
-    
-    setPools(filtered);
+
+    setPools(finalPools);
   }, [poolsData, network, allowedTokens, config]);
 
   // Reload pools when network changes

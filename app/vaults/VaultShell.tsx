@@ -6,14 +6,15 @@ import { useWallet } from "@/context/WalletContext";
 import { AVAILABLE_VAULTS, VaultConfig } from "./constants";
 import VaultListItem from "./components/VaultListItem";
 import VaultDetail from "./components/VaultDetail";
+import CollateralVaultDetail from "./components/CollateralVaultDetail";
 
 type SortField = 'estimatedApy' | 'historicalApy' | 'riskLevel' | 'available' | 'deposits';
 type SortDirection = 'asc' | 'desc' | null;
-type VaultFilter = 'all' | 'mains' | 'alts';
+type VaultFilter = 'all' | 'stake' | 'borrow';
 
-// Vault category definitions
-const MAINS_VAULT_IDS = ['dx-btc', 've-usd', 've-zec', 've-eth'];
-const ALTS_VAULT_IDS = ['ve-diesel', 've-ordi', 've-methane'];
+// DIESEL vault category definitions
+const STAKE_VAULT_IDS = ['ve-diesel'];
+const BORROW_VAULT_IDS = ['btc-collateral'];
 
 export default function VaultShell() {
   const { network } = useWallet();
@@ -51,25 +52,21 @@ export default function VaultShell() {
     }
   };
 
-  // Show yv-frbtc on regtest/oylnet for testing, hide on mainnet
-  const isTestNetwork = network === 'regtest' || network === 'oylnet';
-
+  // DIESEL app - show all DIESEL vaults
   const filteredVaults = useMemo(() => {
-    let vaults = isTestNetwork
-      ? AVAILABLE_VAULTS
-      : AVAILABLE_VAULTS.filter(vault => vault.id !== 'yv-frbtc');
-    
+    let vaults = [...AVAILABLE_VAULTS];
+
     // Apply vault category filter
-    if (vaultFilter === 'mains') {
-      vaults = vaults.filter(vault => MAINS_VAULT_IDS.includes(vault.id));
-    } else if (vaultFilter === 'alts') {
-      vaults = vaults.filter(vault => ALTS_VAULT_IDS.includes(vault.id));
+    if (vaultFilter === 'stake') {
+      vaults = vaults.filter(vault => STAKE_VAULT_IDS.includes(vault.id));
+    } else if (vaultFilter === 'borrow') {
+      vaults = vaults.filter(vault => BORROW_VAULT_IDS.includes(vault.id));
     }
-    
+
     if (sortField && sortDirection) {
       vaults = [...vaults].sort((a, b) => {
         let compareValue = 0;
-        
+
         switch (sortField) {
           case 'estimatedApy': {
             const aVal = parseFloat(a.estimatedApy || '0');
@@ -96,20 +93,20 @@ export default function VaultShell() {
             compareValue = 0;
             break;
         }
-        
+
         return sortDirection === 'asc' ? compareValue : -compareValue;
       });
     } else {
-      // Default sorting: dx-btc first
+      // Default sorting: veDIESEL first
       vaults = vaults.sort((a, b) => {
-        if (a.id === 'dx-btc') return -1;
-        if (b.id === 'dx-btc') return 1;
+        if (a.id === 've-diesel') return -1;
+        if (b.id === 've-diesel') return 1;
         return 0;
       });
     }
-    
+
     return vaults;
-  }, [sortField, sortDirection, isTestNetwork, vaultFilter]);
+  }, [sortField, sortDirection, vaultFilter]);
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -127,8 +124,12 @@ export default function VaultShell() {
             <span className="text-sm font-semibold">Back to Vaults Overview</span>
           </button>
 
-          {/* Vault Detail with integrated boost */}
-          <VaultDetail vault={selectedVault} />
+          {/* Vault Detail - use CollateralVaultDetail for btc-collateral, VaultDetail for others */}
+          {selectedVault.id === 'btc-collateral' ? (
+            <CollateralVaultDetail vault={selectedVault} />
+          ) : (
+            <VaultDetail vault={selectedVault} />
+          )}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:flex md:flex-col gap-3">
@@ -138,31 +139,31 @@ export default function VaultShell() {
               onClick={() => setVaultFilter('all')}
               className={`rounded-lg px-4 py-2 text-sm font-bold uppercase tracking-wide transition-all border-2 ${
                 vaultFilter === 'all'
-                  ? 'bg-[color:var(--sf-primary)] text-white shadow-lg border-transparent'
+                  ? 'bg-[color:var(--sf-primary)] text-black shadow-lg border-transparent'
                   : 'bg-[color:var(--sf-surface)]/60 text-[color:var(--sf-text)] hover:bg-[color:var(--sf-surface)]/80 border-[color:var(--sf-glass-border)]'
               }`}
             >
               All
             </button>
             <button
-              onClick={() => setVaultFilter('mains')}
+              onClick={() => setVaultFilter('stake')}
               className={`rounded-lg px-4 py-2 text-sm font-bold uppercase tracking-wide transition-all border-2 ${
-                vaultFilter === 'mains'
-                  ? 'bg-[color:var(--sf-primary)] text-white shadow-lg border-transparent'
+                vaultFilter === 'stake'
+                  ? 'bg-[color:var(--sf-primary)] text-black shadow-lg border-transparent'
                   : 'bg-[color:var(--sf-surface)]/60 text-[color:var(--sf-text)] hover:bg-[color:var(--sf-surface)]/80 border-[color:var(--sf-glass-border)]'
               }`}
             >
-              Mains
+              Stake
             </button>
             <button
-              onClick={() => setVaultFilter('alts')}
+              onClick={() => setVaultFilter('borrow')}
               className={`rounded-lg px-4 py-2 text-sm font-bold uppercase tracking-wide transition-all border-2 ${
-                vaultFilter === 'alts'
-                  ? 'bg-[color:var(--sf-primary)] text-white shadow-lg border-transparent'
+                vaultFilter === 'borrow'
+                  ? 'bg-[color:var(--sf-primary)] text-black shadow-lg border-transparent'
                   : 'bg-[color:var(--sf-surface)]/60 text-[color:var(--sf-text)] hover:bg-[color:var(--sf-surface)]/80 border-[color:var(--sf-glass-border)]'
               }`}
             >
-              Alts
+              Borrow
             </button>
           </div>
 
@@ -179,31 +180,31 @@ export default function VaultShell() {
                 onClick={() => setVaultFilter('all')}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wide transition-all border-2 ${
                   vaultFilter === 'all'
-                    ? 'bg-[color:var(--sf-primary)] text-white shadow-lg border-transparent'
+                    ? 'bg-[color:var(--sf-primary)] text-black shadow-lg border-transparent'
                     : 'bg-[color:var(--sf-surface)]/60 text-[color:var(--sf-text)] hover:bg-[color:var(--sf-surface)]/80 border-[color:var(--sf-glass-border)]'
                 }`}
               >
                 All
               </button>
               <button
-                onClick={() => setVaultFilter('mains')}
+                onClick={() => setVaultFilter('stake')}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wide transition-all border-2 ${
-                  vaultFilter === 'mains'
-                    ? 'bg-[color:var(--sf-primary)] text-white shadow-lg border-transparent'
+                  vaultFilter === 'stake'
+                    ? 'bg-[color:var(--sf-primary)] text-black shadow-lg border-transparent'
                     : 'bg-[color:var(--sf-surface)]/60 text-[color:var(--sf-text)] hover:bg-[color:var(--sf-surface)]/80 border-[color:var(--sf-glass-border)]'
                 }`}
               >
-                Mains
+                Stake
               </button>
               <button
-                onClick={() => setVaultFilter('alts')}
+                onClick={() => setVaultFilter('borrow')}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wide transition-all border-2 ${
-                  vaultFilter === 'alts'
-                    ? 'bg-[color:var(--sf-primary)] text-white shadow-lg border-transparent'
+                  vaultFilter === 'borrow'
+                    ? 'bg-[color:var(--sf-primary)] text-black shadow-lg border-transparent'
                     : 'bg-[color:var(--sf-surface)]/60 text-[color:var(--sf-text)] hover:bg-[color:var(--sf-surface)]/80 border-[color:var(--sf-glass-border)]'
                 }`}
               >
-                Alts
+                Borrow
               </button>
             </div>
 

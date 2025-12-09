@@ -5,20 +5,21 @@ import TokenIcon from '@/app/components/TokenIcon';
 import { AVAILABLE_VAULTS } from '@/app/vaults/constants';
 
 export default function VaultTiles() {
+  // For DIESEL app, prioritize veDIESEL vault
   const filteredVaults = AVAILABLE_VAULTS
-    .filter(vault => vault.id !== 'yv-frbtc')
     .sort((a, b) => {
-      if (a.id === 'dx-btc') return -1;
-      if (b.id === 'dx-btc') return 1;
+      if (a.id === 've-diesel') return -1;
+      if (b.id === 've-diesel') return 1;
       return 0;
     });
-  const featured = filteredVaults.slice(0, 3);
+  const featured = filteredVaults.slice(0, 2); // Only show our 2 DIESEL vaults
 
   return (
     <div className="rounded-2xl border-2 border-[color:var(--sf-glass-border)] bg-[color:var(--sf-glass-bg)] backdrop-blur-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+      <div className="diesel-rainbow-bar"></div>
       <div className="px-6 py-4 border-b-2 border-[color:var(--sf-glass-border)] bg-[color:var(--sf-surface)]/40">
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-[color:var(--sf-text)]">Trending Vaults</h3>
+          <h3 className="text-base font-bold text-[color:var(--sf-text)]">DIESEL Vaults</h3>
           <Link href="/vaults" className="text-xs font-semibold text-[color:var(--sf-primary)] hover:text-[color:var(--sf-primary-pressed)] transition-colors">View all</Link>
         </div>
       </div>

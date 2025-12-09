@@ -28,32 +28,35 @@ body {
     "Segoe UI Emoji";
 }
 
-/* Subfrost brand tokens - Dark Theme (default) */
+/* DIESEL brand tokens - Dark Theme (default) */
 :root {
-  /* Background gradient - deep navy to darker navy */
-  --sf-bg-start: #0a1628;
-  --sf-bg-end: #0d1f35;
+  /* Background gradient - deep charcoal/black */
+  --sf-bg-start: #0a0a0a;
+  --sf-bg-end: #141414;
 
-  --sf-surface: #152238;  /* card surface - dark navy */
-  --sf-text: #e8f0ff;     /* primary text - light blue-white */
-  --sf-muted: #7a8ba8;    /* captions - muted blue-gray */
-  --sf-primary: #5b9cff;  /* CTA primary - bright blue */
-  --sf-primary-pressed: #4080e6;
-  --sf-outline: #2a3f5f;  /* borders/focus - dark blue */
+  --sf-surface: #1a1a1a;  /* card surface - dark charcoal */
+  --sf-text: #f5f5f5;     /* primary text - off-white */
+  --sf-muted: #888888;    /* captions - muted gray */
+  --sf-primary: #f59e0b;  /* CTA primary - DIESEL orange/amber */
+  --sf-primary-pressed: #d97706;
+  --sf-outline: #333333;  /* borders/focus - dark gray */
 
   /* Glass variables (dark frosted glass effect) */
-  --sf-glass-bg: rgba(15, 28, 48, 0.85);
-  --sf-glass-border: rgba(91, 156, 255, 0.15);
+  --sf-glass-bg: rgba(20, 20, 20, 0.9);
+  --sf-glass-border: rgba(245, 158, 11, 0.2);
+
+  /* Rainbow gradient accent (for DIESEL 2:0 alkane) */
+  --diesel-rainbow: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6, #ec4899);
 
   /* Settings modal */
-  --sf-settings-section-bg: #152238;
-  --sf-settings-title: #e8f0ff;
+  --sf-settings-section-bg: #1a1a1a;
+  --sf-settings-title: #f5f5f5;
 
-  /* Boost section - dark mode defaults */
-  --sf-boost-bg-from: rgba(88, 28, 135, 0.6);
-  --sf-boost-bg-to: rgba(107, 33, 168, 0.4);
-  --sf-boost-label: #e9d5ff;
-  --sf-boost-value: #f3e8ff;
+  /* Boost section - dark mode defaults (orange tones for DIESEL) */
+  --sf-boost-bg-from: rgba(245, 158, 11, 0.15);
+  --sf-boost-bg-to: rgba(217, 119, 6, 0.1);
+  --sf-boost-label: #fcd34d;
+  --sf-boost-value: #fef3c7;
 
   /* Coming soon - dark mode defaults */
   --sf-coming-soon-bg: rgba(120, 53, 15, 0.4);
@@ -93,12 +96,12 @@ body {
   --sf-badge-coming-soon-border: #9ca3af;
   --sf-badge-coming-soon-text: #9ca3af;
 
-  /* Boost icons - dark mode (light purple to dark purple gradient) */
-  --sf-boost-icon-from: #a855f7;
-  --sf-boost-icon-to: #7c3aed;
+  /* Boost icons - dark mode (orange gradient for DIESEL) */
+  --sf-boost-icon-from: #f59e0b;
+  --sf-boost-icon-to: #d97706;
 }
 
-/* Light Theme (gabes-branch-ui styles) */
+/* Light Theme - disabled for DIESEL (always dark) */
 [data-theme="light"] {
   --background: #ffffff;
   --foreground: #171717;
@@ -171,33 +174,33 @@ body {
   --sf-boost-icon-to: #ec4899;
 }
 
-/* Explicit Dark Theme */
+/* Explicit Dark Theme - DIESEL branded */
 [data-theme="dark"] {
-  --background: #0a1929;
-  --foreground: #ededed;
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
 
-  --sf-bg-start: #0a1628;
-  --sf-bg-end: #0d1f35;
+  --sf-bg-start: #0a0a0a;
+  --sf-bg-end: #141414;
 
-  --sf-surface: #152238;
-  --sf-text: #e8f0ff;
-  --sf-muted: #7a8ba8;
-  --sf-primary: #5b9cff;
-  --sf-primary-pressed: #4080e6;
-  --sf-outline: #2a3f5f;
+  --sf-surface: #1a1a1a;
+  --sf-text: #f5f5f5;
+  --sf-muted: #888888;
+  --sf-primary: #f59e0b;
+  --sf-primary-pressed: #d97706;
+  --sf-outline: #333333;
 
-  --sf-glass-bg: rgba(15, 28, 48, 0.85);
-  --sf-glass-border: rgba(91, 156, 255, 0.15);
+  --sf-glass-bg: rgba(20, 20, 20, 0.9);
+  --sf-glass-border: rgba(245, 158, 11, 0.2);
 
   /* Settings modal - dark sections in dark mode */
-  --sf-settings-section-bg: #152238;
-  --sf-settings-title: #e8f0ff;
+  --sf-settings-section-bg: #1a1a1a;
+  --sf-settings-title: #f5f5f5;
 
-  /* Boost section - dark mode */
-  --sf-boost-bg-from: rgba(88, 28, 135, 0.6);
-  --sf-boost-bg-to: rgba(107, 33, 168, 0.4);
-  --sf-boost-label: #e9d5ff;
-  --sf-boost-value: #f3e8ff;
+  /* Boost section - dark mode (orange for DIESEL) */
+  --sf-boost-bg-from: rgba(245, 158, 11, 0.15);
+  --sf-boost-bg-to: rgba(217, 119, 6, 0.1);
+  --sf-boost-label: #fcd34d;
+  --sf-boost-value: #fef3c7;
 
   /* Coming soon - dark mode */
   --sf-coming-soon-bg: rgba(120, 53, 15, 0.4);
@@ -237,9 +240,9 @@ body {
   --sf-badge-coming-soon-border: #9ca3af;
   --sf-badge-coming-soon-text: #9ca3af;
 
-  /* Boost icons - dark mode (light purple to dark purple gradient) */
-  --sf-boost-icon-from: #a855f7;
-  --sf-boost-icon-to: #7c3aed;
+  /* Boost icons - dark mode (orange gradient for DIESEL) */
+  --sf-boost-icon-from: #f59e0b;
+  --sf-boost-icon-to: #d97706;
 }
 
 /* Wordmark invert for dark mode */
@@ -303,6 +306,34 @@ body {
 /* Background gradient utility */
 .sf-bg {
   background: linear-gradient(180deg, var(--sf-bg-start), var(--sf-bg-end));
+}
+
+/* DIESEL Rainbow gradient bar - accent element matching alkane 2:0 */
+.diesel-rainbow-bar {
+  height: 3px;
+  background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6, #ec4899);
+  width: 100%;
+}
+
+.diesel-rainbow-bar-thick {
+  height: 4px;
+  background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6, #ec4899);
+  width: 100%;
+}
+
+/* DIESEL rainbow text gradient */
+.diesel-rainbow-text {
+  background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* DIESEL rainbow border glow */
+.diesel-rainbow-glow {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3),
+              0 0 40px rgba(239, 68, 68, 0.1),
+              0 0 60px rgba(139, 92, 246, 0.1);
 }
 
 /* Lightweight CSS stars overlay - enhanced for dark theme */
@@ -490,10 +521,10 @@ input[type="number"] {
   border: 1px solid var(--sf-glass-border);
   background: linear-gradient(
     90deg,
-    rgba(91, 156, 255, 0.5) 0%,
-    rgba(91, 156, 255, 0.5) var(--sf-range-progress),
-    rgba(91, 156, 255, 0.15) var(--sf-range-progress),
-    rgba(91, 156, 255, 0.15) 100%
+    rgba(245, 158, 11, 0.5) 0%,
+    rgba(245, 158, 11, 0.5) var(--sf-range-progress),
+    rgba(245, 158, 11, 0.15) var(--sf-range-progress),
+    rgba(245, 158, 11, 0.15) 100%
   );
   box-shadow:
     inset 0 1px 1px rgba(0, 0, 0, 0.3),
@@ -507,7 +538,7 @@ input[type="number"] {
   margin-top: -4px;
   border-radius: 999px;
   border: 3px solid var(--sf-surface);
-  background: linear-gradient(135deg, var(--sf-primary), #4080e6);
+  background: linear-gradient(135deg, var(--sf-primary), #d97706);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
@@ -515,14 +546,14 @@ input[type="number"] {
 .sf-range:focus-visible::-webkit-slider-thumb,
 .sf-range:active::-webkit-slider-thumb {
   transform: scale(1.05);
-  box-shadow: 0 8px 18px rgba(91, 156, 255, 0.4);
+  box-shadow: 0 8px 18px rgba(245, 158, 11, 0.4);
 }
 
 .sf-range::-moz-range-track {
   height: 12px;
   border-radius: 999px;
   border: 1px solid var(--sf-glass-border);
-  background: rgba(91, 156, 255, 0.15);
+  background: rgba(245, 158, 11, 0.15);
   box-shadow:
     inset 0 1px 1px rgba(0, 0, 0, 0.3),
     0 8px 20px rgba(0, 0, 0, 0.2);
@@ -531,7 +562,7 @@ input[type="number"] {
 .sf-range::-moz-range-progress {
   height: 12px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(91, 156, 255, 0.5), rgba(91, 156, 255, 0.65));
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.5), rgba(245, 158, 11, 0.65));
 }
 
 .sf-range::-moz-range-thumb {
@@ -539,7 +570,7 @@ input[type="number"] {
   height: 20px;
   border-radius: 999px;
   border: 3px solid var(--sf-surface);
-  background: linear-gradient(135deg, var(--sf-primary), #4080e6);
+  background: linear-gradient(135deg, var(--sf-primary), #d97706);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
@@ -547,7 +578,7 @@ input[type="number"] {
 .sf-range:focus-visible::-moz-range-thumb,
 .sf-range:active::-moz-range-thumb {
   transform: scale(1.05);
-  box-shadow: 0 8px 18px rgba(91, 156, 255, 0.4);
+  box-shadow: 0 8px 18px rgba(245, 158, 11, 0.4);
 }
 
 /* Timeline track styling */
@@ -558,8 +589,8 @@ input[type="number"] {
   border: 1px solid var(--sf-glass-border);
   background: linear-gradient(
     90deg,
-    rgba(21, 34, 56, 0.9) 0%,
-    rgba(15, 28, 48, 0.8) 100%
+    rgba(26, 26, 26, 0.9) 0%,
+    rgba(20, 20, 20, 0.8) 100%
   );
   box-shadow:
     inset 0 1px 1px rgba(0, 0, 0, 0.4),
@@ -574,8 +605,8 @@ input[type="number"] {
   border-radius: inherit;
   background: linear-gradient(
     90deg,
-    rgba(91, 156, 255, 0.1) 0%,
-    rgba(91, 156, 255, 0.03) 100%
+    rgba(245, 158, 11, 0.1) 0%,
+    rgba(245, 158, 11, 0.03) 100%
   );
   pointer-events: none;
 }
